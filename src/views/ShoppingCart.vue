@@ -34,30 +34,20 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
+
+                                        <tr v-for="keranjang in keranjangUser" :key="keranjang.id">
                                             <td class="cart-pic first-row">
-                                                <img src="img/cart-page/product-1.jpg" />
+                                                <img class="img-cart" :src="keranjang.photo" />
                                             </td>
                                             <td class="cart-title first-row text-center">
-                                                <h5>Pure Pineapple</h5>
+                                                <h5>{{keranjang.name}}</h5>
                                             </td>
-                                            <td class="p-price first-row">$60.00</td>
-                                            <td class="delete-item"><a href="#"><i class="material-icons">
+                                            <td class="p-price first-row">Rp.{{keranjang.price | formatNumber}}</td>
+                                            <td class="delete-item" @click="removeItem(keranjangUser.index)"><a href="#"><i class="material-icons">
                                               close
                                               </i></a></td>
                                         </tr>
-                                        <tr>
-                                            <td class="cart-pic first-row">
-                                                <img src="img/cart-page/product-1.jpg" />
-                                            </td>
-                                            <td class="cart-title first-row text-center">
-                                                <h5>Pure Pineapple</h5>
-                                            </td>
-                                            <td class="p-price first-row">$60.00</td>
-                                            <td class="delete-item"><a href="#"><i class="material-icons">
-                                              close
-                                              </i></a></td>
-                                        </tr>
+
                                     </tbody>
                                 </table>
                             </div>
@@ -70,19 +60,23 @@
                                 <form>
                                     <div class="form-group">
                                         <label for="namaLengkap">Nama lengkap</label>
-                                        <input type="text" class="form-control" id="namaLengkap" aria-describedby="namaHelp" placeholder="Masukan Nama">
+                                        <input type="text" class="form-control" id="namaLengkap" aria-describedby="namaHelp" placeholder="Masukan Nama" 
+                                        v-model="customerInfo.name">
                                     </div>
                                     <div class="form-group">
                                         <label for="namaLengkap">Email Address</label>
-                                        <input type="email" class="form-control" id="emailAddress" aria-describedby="emailHelp" placeholder="Masukan Email">
+                                        <input type="email" class="form-control" id="emailAddress" aria-describedby="emailHelp" placeholder="Masukan Email"
+                                        v-model="customerInfo.email">
                                     </div>
                                     <div class="form-group">
                                         <label for="namaLengkap">No. HP</label>
-                                        <input type="text" class="form-control" id="noHP" aria-describedby="noHPHelp" placeholder="Masukan No. HP">
+                                        <input type="text" class="form-control" id="noHP" aria-describedby="noHPHelp" placeholder="Masukan No. HP"
+                                        v-model="customerInfo.number">
                                     </div>
                                     <div class="form-group">
                                         <label for="alamatLengkap">Alamat Lengkap</label>
-                                        <textarea class="form-control" id="alamatLengkap" rows="3"></textarea>
+                                        <textarea class="form-control" id="alamatLengkap" rows="3"
+                                        v-model="customerInfo.address"></textarea>
                                     </div>
                                 </form>
                             </div>
@@ -95,14 +89,16 @@
                             <div class="proceed-checkout text-left">
                                 <ul>
                                     <li class="subtotal">ID Transaction <span>#SH12000</span></li>
-                                    <li class="subtotal mt-3">Subtotal <span>$240.00</span></li>
-                                    <li class="subtotal mt-3">Pajak <span>10%</span></li>
-                                    <li class="subtotal mt-3">Total Biaya <span>$440.00</span></li>
+                                    <li class="subtotal mt-3">Subtotal <span>Rp.{{totalHarga | formatNumber}}</span></li>
+                                    <li class="subtotal mt-3">Pajak <span>10% Rp.{{pajak | formatNumber}}</span></li>
+                                    <li class="subtotal mt-3">Total Biaya <span>Rp.{{totalBiaya | formatNumber}}</span></li>
                                     <li class="subtotal mt-3">Bank Transfer <span>Mandiri</span></li>
                                     <li class="subtotal mt-3">No. Rekening <span>2208 1996 1403</span></li>
                                     <li class="subtotal mt-3">Nama Penerima <span>Shayna</span></li>
                                 </ul>
-                                <router-link to="/success" class="proceed-btn">I ALREADY PAID</router-link>
+                                <!-- <router-link to="/success"> -->
+                                <a @click="checkout()" href="#" class="proceed-btn">I ALREADY PAID</a> 
+                                <!-- </router-link> -->
                             </div>
                         </div>
                     </div>
@@ -119,14 +115,95 @@
 <script>
 import HeaderShayna from '@/components/HeaderShayna.vue'
 import FooterShayna from '@/components/FooterShayna.vue'
+import Vue from "vue";
+import axios from 'axios';
 
+var numeral = require("numeral");
 
+Vue.filter("formatNumber", function (value) {
+  return numeral(value).format("0,0"); // displaying other groupings/separators is possible, look at the docs
+});
 
 export default {
     name: "ShoppingCart",
     components:{
         HeaderShayna,
         FooterShayna
+    },
+   data() {
+        return {
+      keranjangUser: [],
+      customerInfo: {
+          name: '',
+          email: '',
+          number: '',
+          address: ''
+      }
+    };
+  },
+ 
+   mounted() {
+    if (localStorage.getItem("keranjangUser")) {
+      try {
+        this.keranjangUser = JSON.parse(localStorage.getItem("keranjangUser"));
+      } catch (e) {
+        localStorage.removeItem("keranjangUser");
+      }
     }
+  },
+  methods: {
+      removeItem(index) {
+          this.keranjangUser.splice(index,1);
+            const parsed = JSON.stringify(this.keranjangUser);
+            localStorage.setItem("keranjangUser", parsed);
+      },
+       checkout() {
+      let productIds = this.keranjangUser.map(function(product) {
+          return product.id;
+      });
+
+      let checkoutData = {
+          name : this.customerInfo.name,
+          email: this.customerInfo.email,
+          number: this.customerInfo.number,
+          address: this.customerInfo.address,
+          transaction_total: this.totalBiaya,
+          transaction_status: "PENDING",
+          transaction_details: productIds
+      };
+
+      axios 
+        .post(
+            "http://localhost:8000/api/checkout", checkoutData
+        )
+        .then(() => this.$router.push("success"))
+        .catch(err => console.log(err));
+    
+
+    },
+  },
+  
+  computed: {
+      totalHarga() {
+          return this.keranjangUser.reduce(function(items,data){
+              return items + data.price;
+          }, 0)
+      },
+      pajak() {
+          return (this.totalHarga * 10) / 100;
+      },
+      totalBiaya() {
+          return this.totalHarga + this.pajak;
+      }
+    
+  }
+ 
 }
 </script>
+
+<style scoped>
+    .img-cart{
+        width :130px;
+        height: 130px;
+    }
+</style>
