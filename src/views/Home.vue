@@ -18,6 +18,7 @@ import WomanShayna from '@/components/WomanShayna.vue'
 import InstaShayna from '@/components/InstaShayna.vue'
 import PartnerShayna from '@/components/PartnerShayna.vue'
 import FooterShayna from '@/components/FooterShayna.vue'
+import axios from 'axios'
 
 
 
@@ -32,6 +33,22 @@ export default {
     InstaShayna,
     PartnerShayna,
     FooterShayna
+  },
+
+  data() {
+    return{
+      user: null,
+      props: ['user']
+    }
+  },
+
+  async created() {
+    const response = await axios.get(' http://localhost:8000/api/user', {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token')
+        }
+    });
+      this.user = response.data;
   }
 }
 </script>

@@ -2,25 +2,44 @@
     <div>
           <!-- Header Section Begin -->
     <header class="header-section">
-        <div class="header-top">
+        <nav>
+             <div class="header-top">
             <div class="container">
                 <div class="ht-left">
                     <div class="mail-service">
-                        <i class=" fa fa-envelope"></i> hello.shayna@gmail.com
+                        <i class=" fa fa-envelope"></i> larastore@gmail.com
                     </div>
                     <div class="phone-service">
-                        <i class=" fa fa-phone"></i> +628 22081996
+                        <i class=" fa fa-phone"></i> +628 21279371
                     </div>
                 </div>
+                  <div class="ht-right">
+                        <div class="login-panel" v-if="user">
+                        <a href="javascript:void(0)" @click="handleClick" style="text-decoration:none;color:black;font-size:18px">Logout</a>   
+                    </div>
+                      <div class="login-panel">
+                         <p v-if="user" class="text-dark">{{user.name}}</p>
+                    </div>
+                    <div class="login-panel" v-if="!user">
+                        <router-link :to="{name: 'register'}" style="text-decoration:none;color:black"  href="">Register</router-link>   
+                    </div>
+                    <div class="login-panel" v-if="!user">
+                       <router-link :to="{name: 'login'}" style="text-decoration:none;color:black" href="">Login</router-link> 
+                    </div>
+                   
+                </div>
+               
             </div>
         </div>
+        </nav>
+       
         <div class="container">
             <div class="inner-header">
                 <div class="row">
                     <div class="col-lg-2 col-md-2">
                         <div class="logo">
                             <a href="./index.html">
-                                <img src="img/logo_website_shayna.png" alt="" />
+                               <router-link to="/"><b><span style="color:#1c7664">Lara</span>Store</b></router-link>
                             </a>
                         </div>
                     </div>
@@ -47,7 +66,7 @@
                                                             <h6>{{keranjang.name}}</h6>
                                                         </div>
                                                     </td>
-                                                    <td @click="removeItem(keranjangUser.index)" class="si-close">
+                                                    <td @click="removeItem(keranjangUser.id)" class="si-close">
                                                         <i class="ti-close"></i>
                                                     </td>
                                                 </tr>  
@@ -81,6 +100,7 @@
 
 <script>
 import Vue from "vue";
+import axios from "axios"   
 
 var numeral = require("numeral");
 
@@ -93,15 +113,29 @@ export default {
     data() {
         return {
       keranjangUser: [],
+      user: null,
+      props:['user']
     };
   },
   methods: {
-      removeItem(index) {
-          this.keranjangUser.splice(index,1);
-            const parsed = JSON.stringify(this.keranjangUser);
-            localStorage.setItem("keranjangUser", parsed);
+      removeItem(idx) {
+         let keranjangUserStorage = JSON.parse(localStorage.getItem("keranjangUser"));
+         let itemKeranjangUserStorage = keranjangUserStorage.map(itemKeranjangUserStorage => itemKeranjangUserStorage.id);
+         let index = itemKeranjangUserStorage.findIndex(id => id == idx);
+         this.keranjangUser.splice(index,1);
+
+         const parsed = JSON.stringify(this.keranjangUser);
+         localStorage.setItem("keranjangUser", parsed);
+         window.location.reload();
+      },
+      handleClick(){
+          localStorage. removeItem('token')
+          this.$router.push('/');
+         window.location.reload();
+          
       }
   },
+  
   mounted() {
     if (localStorage.getItem("keranjangUser")) {
       try {
@@ -110,6 +144,14 @@ export default {
         localStorage.removeItem("keranjangUser");
       }
     }
+  },
+   async created() {
+    const response = await axios.get(' http://localhost:8000/api/user', {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token')
+        }
+    });
+      this.user = response.data;
   },
   computed: {
       totalHarga() {

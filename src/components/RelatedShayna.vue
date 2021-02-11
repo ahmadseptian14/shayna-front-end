@@ -13,7 +13,7 @@
                 <div class="col-lg-3 col-sm-6">
                     <div class="product-item">
                         <div class="pi-pic">
-                            <img src="img/products/women-1.jpg" alt="" />
+                            <img src="img/men/uniqlo-5.jpg" alt="" />
                             <ul>
                                 <li class="w-icon active">
                                     <a href="#"><i class="icon_bag_alt"></i></a>
@@ -24,11 +24,11 @@
                         <div class="pi-text">
                             <div class="catagory-name">Coat</div>
                             <a href="#">
-                                <h5>Pure Pineapple</h5>
+                                <h5>Uniqlo UT-5</h5>
                             </a>
                             <div class="product-price">
-                                $14.00
-                                <span>$35.00</span>
+                                Rp.249.000
+                                <span>Rp.300.000</span>
                             </div>
                         </div>
                     </div>
@@ -36,7 +36,7 @@
                 <div class="col-lg-3 col-sm-6">
                     <div class="product-item">
                         <div class="pi-pic">
-                            <img src="img/products/women-2.jpg" alt="" />
+                            <img src="img/men/uniqlo-6.jpg" alt="" />
                             <ul>
                                 <li class="w-icon active">
                                     <a href="#"><i class="icon_bag_alt"></i></a>
@@ -47,10 +47,10 @@
                         <div class="pi-text">
                             <div class="catagory-name">Shoes</div>
                             <a href="#">
-                                <h5>Guangzhou sweater</h5>
+                                <h5>Uniqlo UT-6</h5>
                             </a>
                             <div class="product-price">
-                                $13.00
+                                Rp.300.000
                             </div>
                         </div>
                     </div>
@@ -58,7 +58,7 @@
                 <div class="col-lg-3 col-sm-6">
                     <div class="product-item">
                         <div class="pi-pic">
-                            <img src="img/products/women-3.jpg" alt="" />
+                            <img src="img/men/uniqlo-7.jfif" alt="" />
                             <ul>
                                 <li class="w-icon active">
                                     <a href="#"><i class="icon_bag_alt"></i></a>
@@ -69,10 +69,10 @@
                         <div class="pi-text">
                             <div class="catagory-name">Towel</div>
                             <a href="#">
-                                <h5>Pure Pineapple</h5>
+                                <h5>Uniqlo UT-7</h5>
                             </a>
                             <div class="product-price">
-                                $34.00
+                               Rp.300.000
                             </div>
                         </div>
                     </div>
@@ -80,7 +80,7 @@
                 <div class="col-lg-3 col-sm-6">
                     <div class="product-item">
                         <div class="pi-pic">
-                            <img src="img/products/women-4.jpg" alt="" />
+                            <img src="img/men/uniqlo-8.jfif" alt="" />
                             <ul>
                                 <li class="w-icon active">
                                     <a href="#"><i class="icon_bag_alt"></i></a>
@@ -91,10 +91,10 @@
                         <div class="pi-text">
                             <div class="catagory-name">Towel</div>
                             <a href="#">
-                                <h5>Converse Shoes</h5>
+                                <h5>Uniqlo UT-8</h5>
                             </a>
                             <div class="product-price">
-                                $34.00
+                                Rp.300.000
                             </div>
                         </div>
                     </div>

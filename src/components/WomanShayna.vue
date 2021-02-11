@@ -74,6 +74,7 @@ export default {
         this.keranjangUser.push(productStored);
         const parsed = JSON.stringify(this.keranjangUser);
         localStorage.setItem("keranjangUser", parsed);
+         window.location.reload();
         },
     },
       mounted() {

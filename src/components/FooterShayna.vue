@@ -6,12 +6,12 @@
                 <div class="col-lg-5">
                     <div class="footer-left text-left">
                         <div class="footer-logo">
-                            <a href="#"><img src="img/logo_website_shayna_white.png" alt="" /></a>
+                            <a href="#" style="text-decoration:none;color:white"><span>Lara</span>Store</a>
                         </div>
                         <ul>
-                            <li>Address: Setra Duta, Bandung</li>
-                            <li>Phone: +628 22081996</li>
-                            <li>Email: hello.shayna@gmail.com</li>
+                            <li>Address: Rangkasbitung, Lebak,Banten</li>
+                            <li>Phone: +62892749218</li>
+                            <li>Email: larastore@gmail.com</li>
                         </ul>
                         <div class="footer-social text-left">
                             <a href="#"><i class="fa fa-facebook"></i></a>
@@ -51,7 +51,7 @@
                     <div class="col-lg-12">
                         <div class="copyright-text">
                             Copyright &copy;
-                            2019 - 2020 All rights reserved | Shayna
+                            2021 All rights reserved | LaraStore
                         </div>
                     </div>
                 </div>

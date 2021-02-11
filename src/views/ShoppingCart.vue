@@ -78,6 +78,14 @@
                                         <textarea class="form-control" id="alamatLengkap" rows="3"
                                         v-model="customerInfo.address"></textarea>
                                     </div>
+                                    <div class="form-group">
+                                        <label for="delivery" class="form-control-label">Pilih Kurir</label>
+                                        <select name="delivery" class="form-control" v-model="customerInfo.delivery">                                 
+                                            <option value="JNE">JNE</option>
+                                            <option value="JNT">JNT</option>
+                                            <option value="SICEPAT">SICEPAT</option>
+                                        </select>
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -88,16 +96,21 @@
                         <div class="col-lg-12">
                             <div class="proceed-checkout text-left">
                                 <ul>
-                                    <li class="subtotal">ID Transaction <span>#SH12000</span></li>
-                                    <li class="subtotal mt-3">Subtotal <span>Rp.{{totalHarga | formatNumber}}</span></li>
-                                    <li class="subtotal mt-3">Pajak <span>10% Rp.{{pajak | formatNumber}}</span></li>
+                                    <li class="subtotal">Subtotal <span>Rp.{{totalHarga | formatNumber}}</span></li>
+                                    <li class="subtotal mt-3">Pajak <span>5% Rp.{{pajak | formatNumber}}</span></li>
                                     <li class="subtotal mt-3">Total Biaya <span>Rp.{{totalBiaya | formatNumber}}</span></li>
-                                    <li class="subtotal mt-3">Bank Transfer <span>Mandiri</span></li>
-                                    <li class="subtotal mt-3">No. Rekening <span>2208 1996 1403</span></li>
-                                    <li class="subtotal mt-3">Nama Penerima <span>Shayna</span></li>
+                                    <li class="subtotal mt-3">Bank Transfer <span>BNI</span></li>
+                                    <li class="subtotal mt-3">No. Rekening <span>72013748</span></li>
+                                    <li class="subtotal mt-3">Nama Penerima <span>Ahmad Septian</span></li>
                                 </ul>
                                 <!-- <router-link to="/success"> -->
-                                <a @click="checkout()" href="#" class="proceed-btn">I ALREADY PAID</a> 
+                               
+                                 <div v-if="user">
+                                    <a @click="checkout(),removeKeranjang(keranjangUser.index)" href="#" class="proceed-btn">I ALREADY PAID</a> 
+                                </div>
+                                <div v-else>
+                                    <h4>You Must Login First</h4>
+                                </div>
                                 <!-- </router-link> -->
                             </div>
                         </div>
@@ -133,27 +146,26 @@ export default {
    data() {
         return {
       keranjangUser: [],
+      user:'',
       customerInfo: {
           name: '',
           email: '',
           number: '',
-          address: ''
+          address: '',
+          delivery: ''
       }
     };
   },
  
-   mounted() {
-    if (localStorage.getItem("keranjangUser")) {
-      try {
-        this.keranjangUser = JSON.parse(localStorage.getItem("keranjangUser"));
-      } catch (e) {
-        localStorage.removeItem("keranjangUser");
-      }
-    }
-  },
+ 
   methods: {
       removeItem(index) {
           this.keranjangUser.splice(index,1);
+            const parsed = JSON.stringify(this.keranjangUser);
+            localStorage.setItem("keranjangUser", parsed);
+      },
+      removeKeranjang(index) {
+          this.keranjangUser.splice(index);
             const parsed = JSON.stringify(this.keranjangUser);
             localStorage.setItem("keranjangUser", parsed);
       },
@@ -167,20 +179,39 @@ export default {
           email: this.customerInfo.email,
           number: this.customerInfo.number,
           address: this.customerInfo.address,
+          delivery: this.customerInfo.delivery,
           transaction_total: this.totalBiaya,
           transaction_status: "PENDING",
           transaction_details: productIds
       };
-
+      
       axios 
         .post(
             "http://localhost:8000/api/checkout", checkoutData
         )
         .then(() => this.$router.push("success"))
         .catch(err => console.log(err));
+       
     
 
     },
+  },
+  async created() {
+    const response = await axios.get(' http://localhost:8000/api/user', {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token')
+        }
+    });
+      this.user = response.data;
+  },
+    mounted() {
+    if (localStorage.getItem("keranjangUser")) {
+      try {
+        this.keranjangUser = JSON.parse(localStorage.getItem("keranjangUser"));
+      } catch (e) {
+        localStorage.removeItem("keranjangUser");
+      }
+    }
   },
   
   computed: {
@@ -190,7 +221,7 @@ export default {
           }, 0)
       },
       pajak() {
-          return (this.totalHarga * 10) / 100;
+          return (this.totalHarga * 5) / 100;
       },
       totalBiaya() {
           return this.totalHarga + this.pajak;

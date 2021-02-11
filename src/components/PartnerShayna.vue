@@ -3,29 +3,29 @@
     <div class="partner-logo">
         <div class="container">
             <carousel class="logo-carousel" :items="5" :loop="true" :autoplay="true" :dots="false" :nav="false">
-                <div class="logo-item">
+                <div class="logo-item mr-2">
                     <div class="tablecell-inner">
-                        <img src="img/logo-carousel/logo-1.png" alt="" />
+                        <img src="img/logo-carousel/3second-logo.png" alt="" />
                     </div>
                 </div>
-                <div class="logo-item">
+                <div class="logo-item mr-2">
                     <div class="tablecell-inner">
-                        <img src="img/logo-carousel/logo-2.png" alt="" />
+                        <img src="img/logo-carousel/blnrs-logo.png" alt="" />
                     </div>
                 </div>
-                <div class="logo-item">
+                <div class="logo-item mr-2">
                     <div class="tablecell-inner">
-                        <img src="img/logo-carousel/logo-3.png" alt="" />
+                        <img src="img/logo-carousel/moutley_logo.jfif" alt="" />
                     </div>
                 </div>
-                <div class="logo-item">
+                <div class="logo-item mr-2">
                     <div class="tablecell-inner">
-                        <img src="img/logo-carousel/logo-4.png" alt="" />
+                        <img src="img/logo-carousel/uniqlo_logo.png" alt="" />
                     </div>
                 </div>
-                <div class="logo-item">
+                <div class="logo-item mr-2">
                     <div class="tablecell-inner">
-                        <img src="img/logo-carousel/logo-5.png" alt="" />
+                        <img src="img/logo-carousel/HM.png" alt="" />
                     </div>
                 </div>
             </carousel>
