@@ -187,7 +187,7 @@ export default {
       
       axios 
         .post(
-            "http://localhost:8000/api/checkout", checkoutData
+            "http://47.254.249.154:81/api/checkout", checkoutData
         )
         .then(() => this.$router.push("success"))
         .catch(err => console.log(err));
@@ -197,7 +197,7 @@ export default {
     },
   },
   async created() {
-    const response = await axios.get(' http://localhost:8000/api/user', {
+    const response = await axios.get(' http://47.254.249.154:81/api/user', {
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('token')
         }

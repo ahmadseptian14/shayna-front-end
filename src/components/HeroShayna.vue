@@ -67,7 +67,7 @@ export default {
     },
 
     async created() {
-    const response = await axios.get(' http://localhost:8000/api/user', {
+    const response = await axios.get(' http://47.254.249.154:81/api/user', {
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('token')
         }

@@ -87,7 +87,7 @@ export default {
                  }
 
                 //send server with axios
-                axios.post("http://localhost:8000/api/register", register )
+                axios.post("http://47.254.249.154:81/api/register", register )
                 .then(() => this.$router.push("login"))
                 .catch(err => console.log(err));
     

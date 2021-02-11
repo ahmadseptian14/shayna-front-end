@@ -140,7 +140,7 @@ export default {
       }
     }
     axios
-      .get("http://localhost:8000/api/products", {
+      .get("http://47.254.249.154:81/api/products", {
         params: {
           id: this.$route.params.id,
         },

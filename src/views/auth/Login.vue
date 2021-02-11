@@ -63,7 +63,7 @@
                   }
                     
                 //send server with axios
-                axios.post("http://localhost:8000/api/login", login)
+                axios.post("http://47.254.249.154:81/api/login", login)
                 .then(response => {
 
                    
